@@ -173,3 +173,244 @@ index 0000000..eed1e2a
 @@ -0,0 +1,2 @@
 +Hi,
 + practice command
+
+
+$ git stash
+Saved working directory and index state WIP on main: d7b0122 edited
+
+$ git stash show
+ output.txt | 148 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 147 insertions(+), 1 deletion(-)
+
+
+$ git stash apply
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   output.txt
+
+$ git stash drop
+Dropped refs/stash@{0} (46cecbe5b88998b633385e78aff4bad0f5f5479c)
+
+$ git stash show
+No stash entries found.
+
+
+
+
+$ git log
+commit 2553f8c68325293bd87a4f32f9581a3efca4bea2 (HEAD -> main)
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 15:41:40 2021 +0530
+
+    update
+
+commit d7b0122a32359fdbf6e58228c0d94edb0b623bc6 (origin/main)
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 14:42:10 2021 +0530
+
+    edited
+
+commit 0a6c7260c405935500805493db04540f88588230
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 14:36:49 2021 +0530
+
+    commands with output
+
+
+
+$ git log -p -2
+commit 2553f8c68325293bd87a4f32f9581a3efca4bea2 (HEAD -> main)
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 15:41:40 2021 +0530
+
+    update
+
+diff --git a/output.txt b/output.txt
+index 280b5e6..96471d9 100644
+--- a/output.txt
++++ b/output.txt
+@@ -26,4 +26,150 @@ Untracked files:
+ $ git commit -m "commands with output"
+ [main (root-commit) 0a6c726] commands with output
+  1 file changed, 2 insertions(+)
+- create mode 100644 demo.txt
+\ No newline at end of file
++ create mode 100644 demo.txt
++
++
++
++$ git commit -a
++On branch main
++Untracked files:
++  (use "git add <file>..." to include in what will be committed)
++        output.txt
++
++nothing added to commit but untracked files present (use "git add" to track).
++
++$ git commit
++[main 7d54eeb] "commit without using -m"
++ 1 file changed, 29 insertions(+)
++ create mode 100644 output.txt
++
++
++
++$ git commit --amend
++[main 3e2236b] "text file of outputs"
++ Date: Wed Dec 22 14:42:10 2021 +0530
++ 1 file changed, 29 insertions(+)
++ create mode 100644 output.txt
++
++
++
++$ git commit --amend -m "edited"
++[main 1dd41b0] edited
++ Date: Wed Dec 22 14:42:10 2021 +0530
++ 1 file changed, 29 insertions(+)
++ create mode 100644 output.txt
+
+$ git shortlog
+mikki282 (3):
+      commands with output
+      edited
+      update
+
+
+$ git shortlog -n
+mikki282 (3):
+      commands with output
+      edited
+      update
+
+$ git shortlog -e
+mikki282 <mikki.aiet@gmail.com> (3):
+      commands with output
+      edited
+      update
+
+
+$ ll
+total 5
+-rw-r--r-- 1 mikki.kumari 1049089   24 Dec 22 16:01 demo.txt
+-rw-r--r-- 1 mikki.kumari 1049089 3636 Dec 22 16:01 output.txt
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ ll
+total 4
+-rw-r--r-- 1 mikki.kumari 1049089 3636 Dec 22 16:01 output.txt
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git checkout demo.txt
+Updated 1 path from the index
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ ll
+total 5
+-rw-r--r-- 1 mikki.kumari 1049089   24 Dec 22 16:02 demo.txt
+-rw-r--r-- 1 mikki.kumari 1049089 3636 Dec 22 16:01 output.txt
+
+
+$ git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   output.txt
+
+
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   abc.txt
+        modified:   output.txt
+
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   output.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        abc.txt
+
+$ git clean -i
+Would remove the following item:
+  abc.txt
+*** Commands ***
+    1: clean                2: filter by pattern    3: select by numbers
+    4: ask each             5: quit                 6: help
+What now> c
+Removing abc.txt
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   output.txt
+
+
+
+$ git branch master
+$ git branch --list
+  list
+* main
+  master
+
+$ git checkout master
+Switched to branch 'master'
+M       output.txt
+
+$ git checkout -b demo
+Switched to a new branch 'demo'
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (list)
+$ git branch --show-current
+list
+
+$ git branch
+  default
+  demo
+  list
+* main
+  master
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git branch -m master default
+fatal: A branch named 'default' already exists.
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git branch -m master look
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git branch
+  default
+  demo
+  list
+  look
+* main
+
+$ git push origin demo
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+remote:
+remote: Create a pull request for 'demo' on GitHub by visiting:
+remote:      https://github.com/mikki282/commandtest/pull/new/demo
+remote:
+To https://github.com/mikki282/commandtest.git
+ * [new branch]      demo -> demo
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (demo)
+$ git push origin --delete demo
+To https://github.com/mikki282/commandtest.git
+ - [deleted]         demo
+$ git branch -d demo
+Deleted branch demo (was 2553f8c).
+
+$ git remote add origni https://github.com/mikki282/commandtest.git
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git remote -v
+origin  https://github.com/mikki282/commandtest.git (fetch)
+origin  https://github.com/mikki282/commandtest.git (push)
+
