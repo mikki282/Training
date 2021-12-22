@@ -414,3 +414,25 @@ $ git remote -v
 origin  https://github.com/mikki282/commandtest.git (fetch)
 origin  https://github.com/mikki282/commandtest.git (push)
 
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git add .
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git push origin main
+Everything up-to-date
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git commit -m "updated"
+[main c341896] updated
+ 1 file changed, 241 insertions(+)
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git push origin main
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 2.15 KiB | 2.15 MiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/mikki282/commandtest.git
+   2553f8c..c341896  main -> main
