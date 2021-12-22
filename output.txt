@@ -1,0 +1,29 @@
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   demo.txt
+
+
+
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   demo.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        output.txt
+
+
+$ git commit -m "commands with output"
+[main (root-commit) 0a6c726] commands with output
+ 1 file changed, 2 insertions(+)
+ create mode 100644 demo.txt
