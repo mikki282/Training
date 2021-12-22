@@ -27,3 +27,149 @@ $ git commit -m "commands with output"
 [main (root-commit) 0a6c726] commands with output
  1 file changed, 2 insertions(+)
  create mode 100644 demo.txt
+
+
+
+$ git commit -a
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        output.txt
+
+nothing added to commit but untracked files present (use "git add" to track).
+
+$ git commit
+[main 7d54eeb] "commit without using -m"
+ 1 file changed, 29 insertions(+)
+ create mode 100644 output.txt
+
+
+
+$ git commit --amend
+[main 3e2236b] "text file of outputs"
+ Date: Wed Dec 22 14:42:10 2021 +0530
+ 1 file changed, 29 insertions(+)
+ create mode 100644 output.txt
+
+
+
+$ git commit --amend -m "edited"
+[main 1dd41b0] edited
+ Date: Wed Dec 22 14:42:10 2021 +0530
+ 1 file changed, 29 insertions(+)
+ create mode 100644 output.txt
+
+
+
+
+$ git diff  0a6c7260c405935500805493db04540f88588230 1dd41b0d6f16a77518a197f1098d7652d281f289
+diff --git a/output.txt b/output.txt
+new file mode 100644
+index 0000000..280b5e6
+--- /dev/null
++++ b/output.txt
+@@ -0,0 +1,29 @@
++$ git status
++On branch main
++
++No commits yet
++
++Changes to be committed:
++  (use "git rm --cached <file>..." to unstage)
++        new file:   demo.txt
++
++
++
++$ git status
++On branch main
++
++No commits yet
++
++Changes to be committed:
++  (use "git rm --cached <file>..." to unstage)
++        new file:   demo.txt
++
++Untracked files:
++  (use "git add <file>..." to include in what will be committed)
++        output.txt
++
++
++$ git commit -m "commands with output"
++[main (root-commit) 0a6c726] commands with output
++ 1 file changed, 2 insertions(+)
++ create mode 100644 demo.txt
+\ No newline at end of file
+
+
+
+$ git show 0a6c7260c405935500805493db04540f88588230
+commit 0a6c7260c405935500805493db04540f88588230
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 14:36:49 2021 +0530
+
+    commands with output
+
+diff --git a/demo.txt b/demo.txt
+new file mode 100644
+index 0000000..eed1e2a
+--- /dev/null
++++ b/demo.txt
+@@ -0,0 +1,2 @@
++Hi,
++ practice command
+
+
+$ git show -s --format=%ci 0a6c7260c405935500805493db04540f88588230
+2021-12-22 14:36:49 +0530
+
+
+
+
+$ git show -2 --format=%ci
+2021-12-22 14:54:09 +0530
+diff --git a/output.txt b/output.txt
+new file mode 100644
+index 0000000..280b5e6
+--- /dev/null
++++ b/output.txt
+@@ -0,0 +1,29 @@
++$ git status
++On branch main
++
++No commits yet
++
++Changes to be committed:
++  (use "git rm --cached <file>..." to unstage)
++        new file:   demo.txt
++
++
++
++$ git status
++On branch main
++
++No commits yet
++
++Changes to be committed:
++  (use "git rm --cached <file>..." to unstage)
++        new file:   demo.txt
++
++Untracked files:
++  (use "git add <file>..." to include in what will be committed)
++        output.txt
++
++
++$ git commit -m "commands with output"
++[main (root-commit) 0a6c726] commands with output
++ 1 file changed, 2 insertions(+)
++ create mode 100644 demo.txt
+\ No newline at end of file
+2021-12-22 14:36:49 +0530
+
+diff --git a/demo.txt b/demo.txt
+new file mode 100644
+index 0000000..eed1e2a
+--- /dev/null
++++ b/demo.txt
+@@ -0,0 +1,2 @@
++Hi,
++ practice command
