@@ -1,0 +1,260 @@
+
+----->1
+
+---> TO LAUNCH A CONTAINER
+sudo docker run -it --name launch_container -d ubuntu  #this command basically pull the ubuntu image from docker hub and then launch container, we can also use this command to pull image "docker pull img_name".
+49117efc711c36434116cadc5aa4b632a8461bf6feed4633cd9d189394fe1ba1 #this is container id.
+
+
+--->TO LIST OUT THE IMAGES
+intime@intime-VirtualBox:~$ sudo docker image ls
+REPOSITORY          TAG       IMAGE ID       CREATED        SIZE
+ubuntu              latest    ba6acccedd29   2 months ago   72.8MB
+
+--->TO START CONTAINER 
+sudo docker start 49117efc711c
+
+
+---->TO GO UNDER THE CONTAINER
+sudo docker exec -it 49117efc711c bash 
+root@49117efc711c:/# ll
+total 56
+drwxr-xr-x   1 root root 4096 Jan  5 17:14 ./
+drwxr-xr-x   1 root root 4096 Jan  5 17:14 ../
+-rwxr-xr-x   1 root root    0 Jan  5 17:14 .dockerenv*
+lrwxrwxrwx   1 root root    7 Oct  6 16:47 bin -> usr/bin/
+drwxr-xr-x   2 root root 4096 Apr 15  2020 boot/
+drwxr-xr-x   5 root root  360 Jan  5 17:14 dev/
+drwxr-xr-x   1 root root 4096 Jan  5 17:14 etc/
+drwxr-xr-x   2 root root 4096 Apr 15  2020 home/
+lrwxrwxrwx   1 root root    7 Oct  6 16:47 lib -> usr/lib/
+lrwxrwxrwx   1 root root    9 Oct  6 16:47 lib32 -> usr/lib32/
+lrwxrwxrwx   1 root root    9 Oct  6 16:47 lib64 -> usr/lib64/
+lrwxrwxrwx   1 root root   10 Oct  6 16:47 libx32 -> usr/libx32/
+drwxr-xr-x   2 root root 4096 Oct  6 16:47 media/
+drwxr-xr-x   2 root root 4096 Oct  6 16:47 mnt/
+drwxr-xr-x   2 root root 4096 Oct  6 16:47 opt/
+dr-xr-xr-x 265 root root    0 Jan  5 17:14 proc/
+drwx------   2 root root 4096 Oct  6 16:58 root/
+drwxr-xr-x   5 root root 4096 Oct  6 16:58 run/
+lrwxrwxrwx   1 root root    8 Oct  6 16:47 sbin -> usr/sbin/
+drwxr-xr-x   2 root root 4096 Oct  6 16:47 srv/
+dr-xr-xr-x  13 root root    0 Jan  5 17:14 sys/
+drwxrwxrwt   2 root root 4096 Oct  6 16:58 tmp/
+drwxr-xr-x  13 root root 4096 Oct  6 16:47 usr/
+drwxr-xr-x  11 root root 4096 Oct  6 16:58 var/
+root@49117efc711c:/# exit
+
+
+----->2
+
+---> PULL A JENKINS IMAGE AND RUN IT ON HOST PORT 5000 WITH A VOLUME NAME "JENKINS_VOLUME"
+
+sudo docker run -it --name jenkins_container -p 5000:8080 -v /home/intime/jenkins_volume:/var/jenkins_volume  jenkins/jenkins
+Unable to find image 'jenkins/jenkins:latest' locally
+latest: Pulling from jenkins/jenkins
+0e29546d541c: Pull complete 
+11bbb8c402a7: Pull complete 
+cf91f018150b: Pull complete 
+a98e88c6f0f0: Pull complete 
+f67fc70d671a: Pull complete 
+edbe48067464: Pull complete 
+fa23ca93dd6b: Pull complete 
+00159d993c13: Pull complete 
+f28fb40a17cf: Pull complete 
+071d309df04b: Pull complete 
+78599f36e494: Pull complete 
+896a32d969fb: Pull complete 
+3f1a51ea9f7f: Pull complete 
+26e724f0bfad: Pull complete 
+b377e1ae1384: Pull complete 
+d3cdbe7e8b9f: Pull complete 
+f3b40ebc3458: Pull complete 
+Digest: sha256:c3fa8e7f70d1e873ea6aa87040c557aa53e6707eb1d5ecace7f6884a87588ac8
+Status: Downloaded newer image for jenkins/jenkins:latest
+Running from: /usr/share/jenkins/jenkins.war
+webroot: EnvVars.masterEnvVars.get("JENKINS_HOME")
+2022-01-05 17:53:31.387+0000 [id=1]	INFO	org.eclipse.jetty.util.log.Log#initialized: Logging initialized @652ms to org.eclipse.jetty.util.log.JavaUtilLog
+2022-01-05 17:53:31.507+0000 [id=1]	INFO	winstone.Logger#logInternal: Beginning extraction from war file
+2022-01-05 17:53:32.857+0000 [id=1]	WARNING	o.e.j.s.handler.ContextHandler#setContextPath: Empty contextPath
+2022-01-05 17:53:32.959+0000 [id=1]	INFO	org.eclipse.jetty.server.Server#doStart: jetty-9.4.43.v20210629; built: 2021-06-30T11:07:22.254Z; git: 526006ecfa3af7f1a27ef3a288e2bef7ea9dd7e8; jvm 11.0.13+8
+2022-01-05 17:53:33.383+0000 [id=1]	INFO	o.e.j.w.StandardDescriptorProcessor#visitServlet: NO JSP Support for /, did not find org.eclipse.jetty.jsp.JettyJspServlet
+2022-01-05 17:53:33.482+0000 [id=1]	INFO	o.e.j.s.s.DefaultSessionIdManager#doStart: DefaultSessionIdManager workerName=node0
+2022-01-05 17:53:33.483+0000 [id=1]	INFO	o.e.j.s.s.DefaultSessionIdManager#doStart: No SessionScavenger set, using defaults
+2022-01-05 17:53:33.484+0000 [id=1]	INFO	o.e.j.server.session.HouseKeeper#startScavenging: node0 Scavenging every 660000ms
+2022-01-05 17:53:34.294+0000 [id=1]	INFO	hudson.WebAppMain#contextInitialized: Jenkins home directory: /var/jenkins_home found at: EnvVars.masterEnvVars.get("JENKINS_HOME")
+2022-01-05 17:53:34.617+0000 [id=1]	INFO	o.e.j.s.handler.ContextHandler#doStart: Started w.@3e1a3801{Jenkins v2.328,/,file:///var/jenkins_home/war/,AVAILABLE}{/var/jenkins_home/war}
+2022-01-05 17:53:34.665+0000 [id=1]	INFO	o.e.j.server.AbstractConnector#doStart: Started ServerConnector@5bc9ba1d{HTTP/1.1, (http/1.1)}{0.0.0.0:8080}
+2022-01-05 17:53:34.666+0000 [id=1]	INFO	org.eclipse.jetty.server.Server#doStart: Started @3935ms
+2022-01-05 17:53:34.674+0000 [id=23]	INFO	winstone.Logger#logInternal: Winstone Servlet Engine running: controlPort=disabled
+2022-01-05 17:53:35.048+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: Started initialization
+2022-01-05 17:53:35.092+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: Listed all plugins
+2022-01-05 17:53:36.500+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: Prepared all plugins
+2022-01-05 17:53:36.505+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: Started all plugins
+2022-01-05 17:53:36.547+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: Augmented all extensions
+2022-01-05 17:53:37.432+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: System config loaded
+2022-01-05 17:53:37.432+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: System config adapted
+2022-01-05 17:53:37.433+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: Loaded all jobs
+2022-01-05 17:53:37.434+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: Configuration for all jobs updated
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.codehaus.groovy.reflection.CachedClass (file:/var/jenkins_home/war/WEB-INF/lib/groovy-all-2.4.21.jar) to method java.lang.Object.finalize()
+WARNING: Please consider reporting this to the maintainers of org.codehaus.groovy.reflection.CachedClass
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+2022-01-05 17:53:38.283+0000 [id=42]	INFO	hudson.model.AsyncPeriodicWork#lambda$doRun$1: Started Download metadata
+2022-01-05 17:53:38.315+0000 [id=42]	INFO	hudson.util.Retrier#start: Attempt #1 to do the action check updates server
+2022-01-05 17:53:38.750+0000 [id=28]	INFO	jenkins.install.SetupWizard#init: 
+
+*************************************************************
+*************************************************************
+*************************************************************
+
+Jenkins initial setup is required. An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+
+1b8e57127e4446498014ec87304358a7  #
+
+This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
+
+*************************************************************
+*************************************************************
+*************************************************************
+
+2022-01-05 17:54:06.914+0000 [id=42]	INFO	h.m.DownloadService$Downloadable#load: Obtained the updated data file for hudson.tasks.Maven.MavenInstaller
+2022-01-05 17:54:06.915+0000 [id=42]	INFO	hudson.util.Retrier#start: Performed the action check updates server successfully at the attempt #1
+2022-01-05 17:54:06.922+0000 [id=42]	INFO	hudson.model.AsyncPeriodicWork#lambda$doRun$1: Finished Download metadata. 28,636 ms
+
+
+------>3
+
+---->PULL THE APACHE IMAGE AND RUN THE CONTAINER WITH A NAME "apache2"
+sudo docker run -it --name apache2 -d -p 90:80 httpd
+4238e95b7d1cc9bc612202d6fb808bdb6081c8c540de037f643cdb3db561d3aa
+intime@intime-VirtualBox:~$ sudo docker ps
+CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+4238e95b7d1c   httpd        "httpd-foreground"       39 seconds ago   Up 39 seconds   0.0.0.0:90->80/tcp, :::90->80/tcp           apache2
+
+
+----->4
+--->SHARE THE DAT BETWEEN CONTAINERS USING VOLUME
+
+
+intime@intime-VirtualBox:~$ sudo docker run --name cont_1 -v /volume1 -it ubuntu
+root@fb211d30ada7:/# ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var  volume1
+root@fb211d30ada7:/# cd volume1/
+root@fb211d30ada7:/volume1# touch file 1 file2 file 3
+root@fb211d30ada7:/volume1# ls
+1  3  file  file2
+root@fb211d30ada7:/volume1# rm file1
+rm: cannot remove 'file1': No such file or directory
+root@fb211d30ada7:/volume1# cd ..   
+root@fb211d30ada7:/# exit
+exit
+intime@intime-VirtualBox:~$ sudo docker run -it --name cont_2 --privileged=true --volumes-from cont_1 ubuntu 
+root@e312739e8fd7:/# ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var  volume1
+root@e312739e8fd7:/# cd volume1/
+root@e312739e8fd7:/volume1# ls
+1  3  file  file2
+root@e312739e8fd7:/volume1# touch file 4
+root@e312739e8fd7:/volume1# ls
+1  3  4  file  file2
+root@e312739e8fd7:/volume1# touch file4 
+root@e312739e8fd7:/volume1# ls
+1  3  4  file  file2  file4
+root@e312739e8fd7:/volume1# exit
+exit
+intime@intime-VirtualBox:~$ sudo docker start fb211d30ada7
+fb211d30ada7
+intime@intime-VirtualBox:~$ sudo docker attach fb211d30ada7
+root@fb211d30ada7:/# cd v
+var/     volume1/ 
+root@fb211d30ada7:/# cd volume1/
+root@fb211d30ada7:/volume1# ls
+1  3  4  file  file2  file4
+root@fb211d30ada7:/volume1# 
+
+
+
+----->5
+
+--->SHOW HOW DATA CAN BE PERSISTED IN DOCKER VOLUMES 
+
+intime@intime-VirtualBox:~$ sudo docker rm 8fc0cd2d819e
+8fc0cd2d819e
+intime@intime-VirtualBox:~$ sudo docker start 9b051b737a6e
+9b051b737a6e
+intime@intime-VirtualBox:~$ sudo docker attach 9b051b737a6e
+root@9b051b737a6e:/# ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  myvolume  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@9b051b737a6e:/# cd myvolume/
+root@9b051b737a6e:/myvolume# ls
+file1  file2  file3  file4
+root@9b051b737a6e:/myvolume# 
+
+---->6
+--->WRITE A DOCKERFILE TO RUN APACHE ON AN UBUNTU 14.04 BASE IMAGE 
+Here i am going to create a docker file
+intime@worker1:~$ cat Dockerfile 
+#pull the base image
+FROM ubuntu:14.04
+RUN apt-get -y update  #useing command to update 
+
+RUN apt-get install -y apache2  #this command going to install apache2 in the container
+
+EXPOSE 80 #expose the particular port inside the container
+
+WORKDIR /var/www/html #/var/www/html this is the default directory wher apache2 index.html dile stored and working directory set the current directory for the apache2 sever
+
+CMD ["apachectl", "-D", "FOREGROUND"] #cmd is used to execute any command so here i use apachectl command to start the apache2 service and -D is used for dettached mode and foreground is used for runn the serevr always.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+intime@intime-VirtualBox:~$ sudo docker build -t apcheimg .
+Sending build context to Docker daemon  271.5MB
+Step 1/6 : FROM ubuntu:14.04
+ ---> 13b66b487594
+Step 2/6 : RUN apt-get -y update
+ ---> Using cache
+ ---> f1adf1a3d6d5
+Step 3/6 : RUN apt-get install -y apache2
+ ---> Using cache
+ ---> c7457b25c9cf
+Step 4/6 : EXPOSE 80
+ ---> Using cache
+ ---> e6be43c6adcb
+Step 5/6 : WORKDIR /var/www/html
+ ---> Using cache
+ ---> c6fb2f406c67
+Step 6/6 : CMD ["apachectl", "-D", "FOREGROUND"]
+ ---> Using cache
+ ---> cbf48c16f44e
+Successfully built cbf48c16f44e
+Successfully tagged apcheimg:latest
+intime@intime-VirtualBox:~$ sudo docker run -it --name web_container -p 80:80 -d apcheimg
+c2af9c6fac1605e7ef9b0435ac80204f65c8af0721e9ef6bfbb663a2580a374e
+intime@intime-VirtualBox:~$ sudo docker container ls
+CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS             PORTS                                       NAMES
+c2af9c6fac16   apcheimg     "apachectl -D FOREGR…"   57 seconds ago   Up 56 seconds      0.0.0.0:80->80/tcp, :::80->80/tcp           web_container
+4238e95b7d1c   httpd        "httpd-foreground"       53 minutes ago   Up 53 minutes      0.0.0.0:90->80/tcp, :::90->80/tcp           apache2
+0dd150336230   registry:2   "/entrypoint.sh /etc…"   24 hours ago     Up About an hour   0.0.0.0:5050->5000/tcp, :::5050->5000/tcp   registry
+intime@intime-VirtualBox:~$ sudo docker exec -it c2af9c6fac16 bash
+root@c2af9c6fac16:/var/www/html# service apache2 status
+ * apache2 is running
+root@c2af9c6fac16:/var/www/html# ls   
+index.html
+root@c2af9c6fac16:/var/www/html# cd
+root@c2af9c6fac16:~# service apache2 status
+ * apache2 is running
+root@c2af9c6fac16:~# service apache2 restart
+ * Restarting web server apache2                                                                                                                                                                           intime@intime-VirtualBox:~$ sudo docker exec -it c2af9c6fac16 bash
+Error response from daemon: Container c2af9c6fac1605e7ef9b0435ac80204f65c8af0721e9ef6bfbb663a2580a374e is not running
+intime@intime-VirtualBox:~$ sudo docker start c2af9c6fac16 
+c2af9c6fac16
+intime@intime-VirtualBox:~$ sudo docker exec -it c2af9c6fac16 bash
+root@c2af9c6fac16:/var/www/html# service apache2 status
+ * apache2 is running
+root@c2af9c6fac16:/var/www/html# 
+
+
+
