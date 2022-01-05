@@ -257,4 +257,145 @@ root@c2af9c6fac16:/var/www/html# service apache2 status
 root@c2af9c6fac16:/var/www/html# 
 
 
+------>6
+
+---> Create a bridge network and launch multiple containers with names. 
+     Log into one of the containers and ping others using their names and verify that docker’s internal dns service is working.
+
+
+intime@intime-VirtualBox:~$ sudo docker network create -d bridge test
+2a1c5d3b03302e703e83ea855d60ddd5f71ac8614ab7431ba78429d12e3a3157
+intime@intime-VirtualBox:~$ sudo docker netwoek ls
+docker: 'netwoek' is not a docker command.
+See 'docker --help'
+intime@intime-VirtualBox:~$ sudo docker network ls
+NETWORK ID     NAME              DRIVER    SCOPE
+bc7bb15b8080   bridge            bridge    local
+c3d0b529c1a8   docker_gwbridge   bridge    local
+084a201693e8   host              host      local
+yrqdtxvym42b   ingress           overlay   swarm
+fd1fead1f9c3   none              null      local
+2a1c5d3b0330   test              bridge    local
+intime@intime-VirtualBox:~$ sudo docker network inspect 2a1c5d3b0330
+[
+    {
+        "Name": "test",
+        "Id": "2a1c5d3b03302e703e83ea855d60ddd5f71ac8614ab7431ba78429d12e3a3157",
+        "Created": "2022-01-06T02:28:34.805630299+05:30",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {},
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+
+
+intime@intime-VirtualBox:~$ sudo docker run --name web3 -itd --network=test nginx
+c895b34b757b2aad21a1807711e2232b06043bd77cbecb26507d92a79b4cc615
+intime@intime-VirtualBox:~$ sudo docker run --name web4 -itd --network=test nginx
+df5a775886d27abae6e0b3a33022e975af04b32d193182c3092e12f2753dd801
+intime@intime-VirtualBox:~$ sudo docker network inspect 2a1c5d3b0330
+[
+    {
+        "Name": "test",
+        "Id": "2a1c5d3b03302e703e83ea855d60ddd5f71ac8614ab7431ba78429d12e3a3157",
+        "Created": "2022-01-06T02:28:34.805630299+05:30",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "c895b34b757b2aad21a1807711e2232b06043bd77cbecb26507d92a79b4cc615": {
+                "Name": "web3",
+                "EndpointID": "6b4a1d67982dded9350f88a985b721c47a7305dac22c6ace0db6743025ac30ae",
+                "MacAddress": "02:42:ac:13:00:02",
+                "IPv4Address": "172.19.0.2/16",
+                "IPv6Address": ""
+            },
+            "df5a775886d27abae6e0b3a33022e975af04b32d193182c3092e12f2753dd801": {
+                "Name": "web4",
+                "EndpointID": "47357e6fba83df930fe4b73d046821c4622b53ddcd6ee7047299f3e5f768a498",
+                "MacAddress": "02:42:ac:13:00:03",
+                "IPv4Address": "172.19.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+ntime@intime-VirtualBox:~$ sudo docker ps
+CONTAINER ID   IMAGE        COMMAND                  CREATED              STATUS              PORTS                                       NAMES
+df5a775886d2   nginx        "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp                                      web4
+c895b34b757b   nginx        "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp                                      web3
+intime@intime-VirtualBox:~$ sudo docker exec -it df5a775886d2 bash
+root@df5a775886d2:/# apt-get update
+root@df5a775886d2:/# apt-get install iputils-ping
+root@df5a775886d2:/# ping web3
+PING web3 (172.19.0.2) 56(84) bytes of data.
+64 bytes from web3.test (172.19.0.2): icmp_seq=1 ttl=64 time=0.084 ms
+64 bytes from web3.test (172.19.0.2): icmp_seq=2 ttl=64 time=0.093 ms
+64 bytes from web3.test (172.19.0.2): icmp_seq=3 ttl=64 time=0.052 ms
+64 bytes from web3.test (172.19.0.2): icmp_seq=4 ttl=64 time=0.133 ms
+64 bytes from web3.test (172.19.0.2): icmp_seq=5 ttl=64 time=0.053 ms
+64 bytes from web3.test (172.19.0.2): icmp_seq=6 ttl=64 time=0.072 ms
+^C
+--- web3 ping statistics ---
+6 packets transmitted, 6 received, 0% packet loss, time 5084ms
+rtt min/avg/max/mdev = 0.052/0.081/0.133/0.027 ms
+root@df5a775886d2:/# 
+
+
+root@c895b34b757b:/# ping web4
+PING web4 (172.19.0.3) 56(84) bytes of data.
+64 bytes from web4.test (172.19.0.3): icmp_seq=1 ttl=64 time=0.050 ms
+64 bytes from web4.test (172.19.0.3): icmp_seq=2 ttl=64 time=0.093 ms
+64 bytes from web4.test (172.19.0.3): icmp_seq=3 ttl=64 time=0.124 ms
+64 bytes from web4.test (172.19.0.3): icmp_seq=4 ttl=64 time=0.097 ms
+64 bytes from web4.test (172.19.0.3): icmp_seq=5 ttl=64 time=0.096 ms
+64 bytes from web4.test (172.19.0.3): icmp_seq=6 ttl=64 time=0.091 ms
+^C
+--- web4 ping statistics ---
+6 packets transmitted, 6 received, 0% packet loss, time 5100ms
+rtt min/avg/max/mdev = 0.050/0.091/0.124/0.021 ms
+root@c895b34b757b:/# 
+
+
 
