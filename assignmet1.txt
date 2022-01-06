@@ -197,8 +197,11 @@ root@9b051b737a6e:/myvolume#
 --->WRITE A DOCKERFILE TO RUN APACHE ON AN UBUNTU 14.04 BASE IMAGE 
 Here i am going to create a docker file
 intime@worker1:~$ cat Dockerfile 
+
 #pull the base image
+
 FROM ubuntu:14.04
+
 RUN apt-get -y update  #useing command to update 
 
 RUN apt-get install -y apache2  #this command going to install apache2 in the container
@@ -396,6 +399,197 @@ PING web4 (172.19.0.3) 56(84) bytes of data.
 6 packets transmitted, 6 received, 0% packet loss, time 5100ms
 rtt min/avg/max/mdev = 0.050/0.091/0.124/0.021 ms
 root@c895b34b757b:/# 
+
+------> 7
+---> WRITE A DOCKERFILE TO CLONE AND BUILD A Nodejs PROJECT FROM GITHUB AND START THE SERVER ON THE DEFAULT PORT.
+
+intime@worker1:~$ cat Dockerfile 
+
+FROM node #here pull the base image 
+
+RUN git clone  https://github.com/johnpapa/node-hello.git  # cloning the nodejs ample project of hello node from github
+
+RUN npm install -g npm@latest # Here the npm inastall use for installing the package and -g flag means install the package globally on your system.
+
+WORKDIR node-hello # so git clone the projrct in node-hello directory so for that set the current directory node-hello all the commands are running here.
+
+EXPOSE 3000  # the project deploy on the port 3000 under the container.
+
+CMD ["npm", "start"] #here start the npm using nmp start command
+
+
+
+
+intime@worker1:~$ sudo docker build -t node_img .
+Sending build context to Docker daemon  294.5MB
+Step 1/6 : FROM node
+ ---> a283f62cb84b
+Step 2/6 : RUN git clone  https://github.com/johnpapa/node-hello.git
+ ---> Running in 13b4f07f7ac8
+Cloning into 'node-hello'...
+Removing intermediate container 13b4f07f7ac8
+ ---> f96bbb0f9dee
+Step 3/6 : RUN npm install -g npm@latest
+ ---> Running in 14af135573a1
+
+changed 14 packages, and audited 215 packages in 9s
+
+10 packages are looking for funding
+  run `npm fund` for details
+
+3 moderate severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+Removing intermediate container 14af135573a1
+ ---> 32093c3d01b3
+Step 4/6 : WORKDIR node-hello
+ ---> Running in 1de07d747a79
+Removing intermediate container 1de07d747a79
+ ---> d02c87335416
+Step 5/6 : EXPOSE 3000
+ ---> Running in b6689b705292
+Removing intermediate container b6689b705292
+ ---> 68dc09eccf06
+Step 6/6 : CMD ["npm", "start"]
+ ---> Running in 4c06bdc24d85
+Removing intermediate container 4c06bdc24d85
+ ---> ce58b28b944c
+Successfully built ce58b28b944c
+Successfully tagged node_img:latest
+
+intime@worker1:~$ sudo docker run -it --name node_container -d -p 3000:3000 node_img
+83d0d779b230697d40f98340c4c63b21c2518a4706da90e2c5553e23ce292ab7
+
+intime@worker1:~$ sudo docker ps
+CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+83d0d779b230   node_img   "docker-entrypoint.s…"   17 seconds ago   Up 16 seconds   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   node_container
+intime@worker1:~$ 
+
+
+
+------>8
+--->
+
+
+intime@intime-VirtualBox:~$ sudo docker pull registry
+Using default tag: latest
+latest: Pulling from library/registry
+79e9f2f55bf5: Pull complete 
+0d96da54f60b: Pull complete 
+5b27040df4a2: Pull complete 
+e2ead8259a04: Pull complete 
+3790aef225b9: Pull complete 
+Digest: sha256:169211e20e2f2d5d115674681eb79d21a217b296b43374b8e39f97fcf866b375
+Status: Downloaded newer image for registry:latest
+docker.io/library/registry:latest
+
+
+
+intime@intime-VirtualBox:~$ sudo docker run -itd --name pvt_registry -p 5055:5000 registry 
+5ba102ec523de16eb8adc4906fa0e8e0ca17cb5379a4ff703fd7ee72e69e7933
+
+
+intime@intime-VirtualBox:~$ sudo docker ps
+CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+5ba102ec523d   registry   "/entrypoint.sh /etc…"   7 seconds ago   Up 6 seconds   0.0.0.0:5055->5000/tcp, :::5055->5000/tcp   pvt_registry
+
+intime@intime-VirtualBox:~$ sudo docker image tag myimgs:latest localhost:5055/myimgs
+
+intime@intime-VirtualBox:~$ sudo docker images
+REPOSITORY                      TAG       IMAGE ID       CREATED        SIZE
+jenkins/jenkins                 latest    55860ee0cd73   39 hours ago   442MB
+apcheimg                        latest    cbf48c16f44e   42 hours ago   221MB
+myimgs                          latest    cbf48c16f44e   42 hours ago   221MB
+localhost:5055/myimgs           latest    cbf48c16f44e   42 hours ago   221MB
+nginx                           latest    605c77e624dd   7 days ago     141MB
+localhost:5050/nginx1           latest    605c77e624dd   7 days ago     141MB
+httpd                           latest    dabbfbe0c57b   2 weeks ago    144MB
+registry                        latest    b8604a3fe854   7 weeks ago    26.2MB
+ubuntu                          latest    ba6acccedd29   2 months ago   72.8MB
+
+
+intime@intime-VirtualBox:~$ sudo docker image push localhost:5055/myimgs
+Using default tag: latest
+The push refers to repository [localhost:5055/myimgs]
+58adb4ca14d2: Pushed 
+63396e4b621d: Pushed 
+83109fa660b2: Pushed 
+30d3c4334a23: Pushed 
+f2fa9f4cf8fd: Pushed 
+latest: digest: sha256:59c6d825f640fa20ca71c9c4db4ac8f2fd5a1f73766bbf84f0bb6ba114f8b756 size: 1368
+
+
+intime@intime-VirtualBox:~$ sudo docker rmi localhost:5055/myimgs
+Untagged: localhost:5055/myimgs:latest
+Untagged: localhost:5055/myimgs@sha256:59c6d825f640fa20ca71c9c4db4ac8f2fd5a1f73766bbf84f0bb6ba114f8b756
+
+intime@intime-VirtualBox:~$ sudo docker images
+REPOSITORY                      TAG       IMAGE ID       CREATED        SIZE
+jenkins/jenkins                 latest    55860ee0cd73   39 hours ago   442MB
+apcheimg                        latest    cbf48c16f44e   42 hours ago   221MB
+myimgs                          latest    cbf48c16f44e   42 hours ago   221MB
+localhost:5050/nginx1           latest    605c77e624dd   7 days ago     141MB
+nginx                           latest    605c77e624dd   7 days ago     141MB
+httpd                           latest    dabbfbe0c57b   2 weeks ago    144MB
+registry                        latest    b8604a3fe854   7 weeks ago    26.2MB
+ubuntu                          latest    ba6acccedd29   2 months ago   72.8MB
+centos                          latest    5d0da3dc9764   3 months ago   231MB
+repo.docker.local:5055/centos   latest    5d0da3dc9764   3 months ago   231MB
+10.0.2.6:5050/centos            latest    5d0da3dc9764   3 months ago   231MB
+ubuntu                          14.04     13b66b487594   9 months ago   197MB
+
+
+
+intime@intime-VirtualBox:~$ sudo docker image  pull localhost:5055/myimgs
+Using default tag: latest
+latest: Pulling from myimgs
+Digest: sha256:59c6d825f640fa20ca71c9c4db4ac8f2fd5a1f73766bbf84f0bb6ba114f8b756
+Status: Downloaded newer image for localhost:5055/myimgs:latest
+localhost:5055/myimgs:latest
+
+
+intime@intime-VirtualBox:~$ sudo docker images
+REPOSITORY                      TAG       IMAGE ID       CREATED        SIZE
+jenkins/jenkins                 latest    55860ee0cd73   39 hours ago   442MB
+myimgs                          latest    cbf48c16f44e   42 hours ago   221MB
+localhost:5055/myimgs           latest    cbf48c16f44e   42 hours ago   221MB
+apcheimg                        latest    cbf48c16f44e   42 hours ago   221MB
+nginx                           latest    605c77e624dd   7 days ago     141MB
+localhost:5050/nginx1           latest    605c77e624dd   7 days ago     141MB
+httpd                           latest    dabbfbe0c57b   2 weeks ago    144MB
+registry                        latest    b8604a3fe854   7 weeks ago    26.2MB
+ubuntu                          latest    ba6acccedd29   2 months ago   72.8MB
+10.0.2.6:5050/centos            latest    5d0da3dc9764   3 months ago   231MB
+centos                          latest    5d0da3dc9764   3 months ago   231MB
+repo.docker.local:5055/centos   latest    5d0da3dc9764   3 months ago   231MB
+ubuntu                          14.04     13b66b487594   9 months ago   197MB
+intime@intime-VirtualBox:~$ 
+
+
+
+intime@intime-VirtualBox:~$ sudo docker image tag nginx:latest 10.0.2.6:5056/nginx 
+
+intime@intime-VirtualBox:~$ sudo docker images
+REPOSITORY                      TAG       IMAGE ID       CREATED        SIZE
+jenkins/jenkins                 latest    55860ee0cd73   39 hours ago   442MB
+myimgs                          latest    cbf48c16f44e   42 hours ago   221MB
+localhost:5055/myimgs           latest    cbf48c16f44e   42 hours ago   221MB
+apcheimg                        latest    cbf48c16f44e   42 hours ago   221MB
+10.0.2.6:5056/nginx             latest    605c77e624dd   7 days ago     141MB
+nginx                           latest    605c77e624dd   7 days ago     141MB
+localhost:5050/nginx1           latest    605c77e624dd   7 days ago     141MB
+httpd                           latest    dabbfbe0c57b   2 weeks ago    144MB
+registry                        latest    b8604a3fe854   7 weeks ago    26.2MB
+ubuntu                          latest    ba6acccedd29   2 months ago   72.8MB
+repo.docker.local:5055/centos   latest    5d0da3dc9764   3 months ago   231MB
+10.0.2.6:5050/centos            latest    5d0da3dc9764   3 months ago   231MB
+centos                          latest    5d0da3dc9764   3 months ago   231MB
+ubuntu                          14.04     13b66b487594   9 months ago   197MB
+
+
 
 
 
