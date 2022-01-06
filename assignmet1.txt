@@ -471,8 +471,8 @@ intime@worker1:~$
 
 
 ------>8
---->
-
+--->SET UP A PRIVATE DOCKER REGISTRY AND PUSH AN IMAGE TO IT.
+   REMOVE THE SAME IMAGE FROM THE HOST AND PULL IT BACK FROM THE PRIVATE REGISTRY 
 
 intime@intime-VirtualBox:~$ sudo docker pull registry
 Using default tag: latest
