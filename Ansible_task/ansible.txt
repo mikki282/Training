@@ -1,0 +1,111 @@
+## creating playbook to create file or folder on remote server
+
+---
+ -
+  hosts: demo
+  become: true
+  tasks:
+      - name: cretae file on remote server
+        file: path=/etc/test.txt state=touch
+ -
+  hosts: demo
+  become: true
+  tasks:
+      - name: cretae dir on remote server
+        file: path=/etc/testdir state=directory
+
+- name: file with content
+    hosts: mikki1
+    become: true
+    tasks:
+          - copy:
+                  dest: /home/mikki1/test.txt
+                  content: heloo  world
+
+
+
+
+
+
+
+
+
+
+
+
+## simple playbook to create user
+
+
+---
+- name: simple playbook to create user on all host
+  become: true
+  hosts: all
+  tasks:
+   - name: creating a user named Ankit
+     users:
+      name: Ankit
+      shell: /bin/bash
+      password: "{{ 'password' | password_hash('sha512')}}"
+      state: present
+
+
+
+
+##install docker and configure it on localhost
+
+
+---
+- hosts: localhost
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+
+##install, uninstall software and condigure on ubuntu server
+
+---
+- name: install, uninstall software and configure simple software on ubuntu server
+  hosts: mikki1
+  become: true
+  tasks:
+
+    - name: install apache server
+      apt: pkg=apache2 state=latest update_cache=true
+    - name: service get started
+      service:
+              name: apache2
+              state: started
+    - name: uninstall wget server from remote
+      apt:
+             pkg: wget
+             state: absent
+             update_cache: true
+
+
+
+
