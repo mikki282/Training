@@ -1,0 +1,143 @@
+intime@master:~$ minikube dashboard
+🔌  Enabling dashboard ...
+    ▪ Using image kubernetesui/dashboard:v2.3.1
+    ▪ Using image kubernetesui/metrics-scraper:v1.0.7
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+🎉  Opening http://127.0.0.1:40661/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+
+----------->>
+intime@master:~$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+
+---->
+intime@master:~$ minikube config set driver docker
+❗  These changes will take effect upon a minikube delete and then a minikube start
+intime@master:~$ minikube start --driver=docker
+😄  minikube v1.24.0 on Ubuntu 20.04 (vbox/amd64)
+✨  Using the docker driver based on user configuration
+👍  Starting control plane node minikube in cluster minikube
+🚜  Pulling base image ...
+    > gcr.io/k8s-minikube/kicbase: 0 B [___________________________] ?% ? p/s ?
+    > gcr.io/k8s-minikube/kicbase: 0 B [_______________________] ?% ? p/s 7m26s
+🔥  Creating docker container (CPUs=2, Memory=2200MB) ...
+🐳  Preparing Kubernetes v1.22.3 on Docker 20.10.8 ...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+intime@master:~$ 
+intime@master:~$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+intime@master:~$ kubectl version
+Client Version: version.Info{Major:"1", Minor:"23", GitVersion:"v1.23.1", GitCommit:"86ec240af8cbd1b60bcc4c03c20da9b98005b92e", GitTreeState:"clean", BuildDate:"2021-12-16T11:41:01Z", GoVersion:"go1.17.5", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"22", GitVersion:"v1.22.3", GitCommit:"c92036820499fedefec0f847e2054d824aea6cd1", GitTreeState:"clean", BuildDate:"2021-10-27T18:35:25Z", GoVersion:"go1.16.9", Compiler:"gc", Platform:"linux/amd64"}
+intime@master:~$ kubectl cluster-info
+Kubernetes control plane is running at https://192.168.49.2:8443
+CoreDNS is running at https://192.168.49.2:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+intime@master:~$ kubectl get nodes
+NAME       STATUS   ROLES                  AGE    VERSION
+minikube   Ready    control-plane,master   119s   v1.22.3
+intime@master:~$ 
+
+
+
+------>
+
+intime@master:~$ kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
+deployment.apps/hello-minikube created
+intime@master:~$ kubectl expose deployment hello-minikube --type=NodePort --port=8080
+service/hello-minikube exposed
+intime@master:~$ kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+hello-minikube-5d9b964bfb-cvm89   1/1     Running   0          98s
+intime@master:~$ kubectl get service
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-minikube   NodePort    10.105.64.108   <none>        8080:31305/TCP   74s
+kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP          60m
+
+intime@master:~$ minikube service hello-minikube --url
+http://192.168.49.2:31305
+
+intime@master:~$ kubectl delete service hello-minikube
+service "hello-minikube" deleted
+
+intime@master:~$ kubectl delete pod hello-minikube
+Error from server (NotFound): pods "hello-minikube" not found
+
+intime@master:~$ kubectl get pod
+NAME                              READY   STATUS    RESTARTS   AGE
+hello-minikube-5d9b964bfb-cvm89   1/1     Running   0          4m53s
+
+intime@master:~$ kubectl delete pod hello-minikube-5d9b964bfb-cvm89
+pod "hello-minikube-5d9b964bfb-cvm89" deleted
+
+intime@master:~$ kubectl get pod
+NAME                              READY   STATUS    RESTARTS   AGE
+hello-minikube-5d9b964bfb-7dfrm   1/1     Running   0          40s
+
+intime@master:~$ kubectl get service
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   64m
+
+intime@master:~$ kubectl get nodes
+NAME       STATUS   ROLES                  AGE   VERSION
+minikube   Ready    control-plane,master   64m   v1.22.3
+
+intime@master:~$ kubectl delete pod hello-minikube-5d9b964bfb-7dfrm
+pod "hello-minikube-5d9b964bfb-7dfrm" deleted
+
+intime@master:~$ kubectl get pod
+NAME                              READY   STATUS    RESTARTS   AGE
+hello-minikube-5d9b964bfb-psd8w   1/1     Running   0          39s
+
+intime@master:~$ kubectl delete deployment hello-minikube
+deployment.apps "hello-minikube" deleted
+
+intime@master:~$ kubectl get pod
+NAME                              READY   STATUS        RESTARTS   AGE
+hello-minikube-5d9b964bfb-psd8w   1/1     Terminating   0          2m2s
+
+intime@master:~$ kubectl delete pod hello-minikube-5d9b964bfb-psd8w
+Error from server (NotFound): pods "hello-minikube-5d9b964bfb-psd8w" not found
+
+intime@master:~$ kubectl get pod
+No resources found in default namespace.
+
+
+--->
+
+intime@master:~$ minikube stop
+✋  Stopping node "minikube"  ...
+🛑  Powering off "minikube" via SSH ...
+🛑  1 node stopped.
+
+
+intime@master:~$ minikube status
+minikube
+type: Control Plane
+host: Stopped
+kubelet: Stopped
+apiserver: Stopped
+kubeconfig: Stopped
+
+
+
