@@ -1,0 +1,86 @@
+﻿GIt Commands
+* To initialise a empty repository we use cmd:
+git init : it will create a .git folder 
+* First we have to configure user and email to connect local repository with remote repository by using git config command :
+ 
+git config --global user.name “user_name”
+git config --global user.email “user_email”
+* To edit the user configuration:
+git config --global --edit
+* Now i am going to create a file with touch command and then check status
+git status : this will list out the all untracked file 
+So before using the status command we use git add<file_nm> cmd to add the file which we are going to put into the staging area.
+git add . / -A
+* To record the changes which we are make in file we use commit command:
+git commit -m “msg”
+git commit -amend “msg” : for undo the commit
+* Suppose after commit we loss our file so for get back that all files we run a command is:
+git checkout <file_nm> : this is for single file
+git checkout -f : this is for all files which are present in the directory.
+git log: use this command to get history of commit 
+git log -p -n : this command limit the number of commit you want to see (n : number)
+git shortlog: helpful to see who worked on what as a group author with their commits.
+* If we want to skipped staged area then we use :
+           git commit -a -m “msg‘
+* To remove any file from staging area we use:
+git rm --cached <file_nm>
+* To ignore any file which we don’t want to add in staging area the we use gitignore command:
+           Firstly we create a file: touch .gitignore and then add those file’s extensions and files   that we don't use in the staging area.  
+* To create a branch:
+git branch: this command lists out all branches.
+git branch <branch_nm> : create new branch.
+git checkout branch_name: command for move to other branch
+git config --global --defaultBranch branch_nm : to change default branch.
+git merge branch_name: this command is used to present a branch with another branch_name.
+git remote -v : this command show that on which repo we are going push file and fetch
+git remote : list out tall remote present
+git branch -d <branch_nm>: to delete a branch.
+git checkout -b <branch_nm>: create and checkout.
+* To add remote repository:
+           git remote add <remote_nm> <repo_url>: to add repository.
+* For cloning of repository: 
+            git clone <project_url>:   
+
+
+* For push file on remote repository:
+        git push -u <remote> <branch_nm>: -u stands for upstream (to allow set the default remote branch for the local branch ).
+* should have origin and upstream set up before you use Git push
+git push --set-upstream <remote> <branch_nm>
+* To download the meta-data from remote repository we use git fetch:
+git fetch: it only downloads the data but not fetch into your working directory.
+* To stores temporarily your modified files:
+git stash:
+git stash list: this will show a list of stash files.
+git stash apply :  need apply stash to a branch.
+* git show: shows details about specific commits.
+* git rm:  to delete tracked files from the index and the working directory.
+* git rebase is used when we have multiple private branches and we want to integrate these all in a single branch , it rewrites the commit history.
+git rebase <base>:
+* To find the bad commit we use bisect command:
+git bisect start: to start bisect
+git bisect good -a123: to find a good commit.
+git bisect bad -a123: to find  about a bad commit.
+* git cherry-pick <commit-hash>: it allows the user to pick any commit from any branch and apply it on any other branch and it doesn’t modify the history of any repository, it adds history.
+* git archive --format zip HEAD > archive-HEAD.zip:  will combine multiple file into one single file in zip format.
+* git pull --rebase: avoid multiple merges.
+* git blame: it helps to determine who made changes in file:
+git blame <file_nm>
+* Git diff command is used to compare two files or branches before you push or commit.
+git diff HEAD <file_name>
+git diff <source_branch> <target branch>
+* To rename a file we use mv command.
+git mv <file1> <fil2>
+* To remove all untracked file from working directory we use clean command:
+git clean:
+* git whatchanged: work as a git log command but in row format.
+* git help <git command>: to know more about any git command.
+* It says use git restore --staged <file>…​ to unstage
+* git show -s --format=%ci 0a6c7260c405935500805493db04540f88588230
+2021-12-22 14:36:49 +0530
+*git stash apply <index number of stash object>
+*git stash drop <index number of stash file>
+*git stash pop <index of number of stash file>
+*git stash clear [clear th stash list]
+
+NOTE : when you are pushing your code on a remote repository, it asks for user_name and password , so instead of writing our account’s password we use a personal access token. 
+
