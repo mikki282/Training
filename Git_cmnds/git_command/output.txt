@@ -1,0 +1,582 @@
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   demo.txt
+
+
+
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   demo.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        output.txt
+
+
+$ git commit -m "commands with output"
+[main (root-commit) 0a6c726] commands with output
+ 1 file changed, 2 insertions(+)
+ create mode 100644 demo.txt
+
+
+
+$ git commit -a
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        output.txt
+
+nothing added to commit but untracked files present (use "git add" to track).
+
+$ git commit
+[main 7d54eeb] "commit without using -m"
+ 1 file changed, 29 insertions(+)
+ create mode 100644 output.txt
+
+
+
+$ git commit --amend
+[main 3e2236b] "text file of outputs"
+ Date: Wed Dec 22 14:42:10 2021 +0530
+ 1 file changed, 29 insertions(+)
+ create mode 100644 output.txt
+
+
+
+$ git commit --amend -m "edited"
+[main 1dd41b0] edited
+ Date: Wed Dec 22 14:42:10 2021 +0530
+ 1 file changed, 29 insertions(+)
+ create mode 100644 output.txt
+
+
+
+
+$ git diff  0a6c7260c405935500805493db04540f88588230 1dd41b0d6f16a77518a197f1098d7652d281f289
+diff --git a/output.txt b/output.txt
+new file mode 100644
+index 0000000..280b5e6
+--- /dev/null
++++ b/output.txt
+@@ -0,0 +1,29 @@
++$ git status
++On branch main
++
++No commits yet
++
++Changes to be committed:
++  (use "git rm --cached <file>..." to unstage)
++        new file:   demo.txt
++
++
++
++$ git status
++On branch main
++
++No commits yet
++
++Changes to be committed:
++  (use "git rm --cached <file>..." to unstage)
++        new file:   demo.txt
++
++Untracked files:
++  (use "git add <file>..." to include in what will be committed)
++        output.txt
++
++
++$ git commit -m "commands with output"
++[main (root-commit) 0a6c726] commands with output
++ 1 file changed, 2 insertions(+)
++ create mode 100644 demo.txt
+\ No newline at end of file
+
+
+
+$ git show 0a6c7260c405935500805493db04540f88588230
+commit 0a6c7260c405935500805493db04540f88588230
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 14:36:49 2021 +0530
+
+    commands with output
+
+diff --git a/demo.txt b/demo.txt
+new file mode 100644
+index 0000000..eed1e2a
+--- /dev/null
++++ b/demo.txt
+@@ -0,0 +1,2 @@
++Hi,
++ practice command
+
+
+$ git show -s --format=%ci 0a6c7260c405935500805493db04540f88588230
+2021-12-22 14:36:49 +0530
+
+
+
+
+$ git show -2 --format=%ci
+2021-12-22 14:54:09 +0530
+diff --git a/output.txt b/output.txt
+new file mode 100644
+index 0000000..280b5e6
+--- /dev/null
++++ b/output.txt
+@@ -0,0 +1,29 @@
++$ git status
++On branch main
++
++No commits yet
++
++Changes to be committed:
++  (use "git rm --cached <file>..." to unstage)
++        new file:   demo.txt
++
++
++
++$ git status
++On branch main
++
++No commits yet
++
++Changes to be committed:
++  (use "git rm --cached <file>..." to unstage)
++        new file:   demo.txt
++
++Untracked files:
++  (use "git add <file>..." to include in what will be committed)
++        output.txt
++
++
++$ git commit -m "commands with output"
++[main (root-commit) 0a6c726] commands with output
++ 1 file changed, 2 insertions(+)
++ create mode 100644 demo.txt
+\ No newline at end of file
+2021-12-22 14:36:49 +0530
+
+diff --git a/demo.txt b/demo.txt
+new file mode 100644
+index 0000000..eed1e2a
+--- /dev/null
++++ b/demo.txt
+@@ -0,0 +1,2 @@
++Hi,
++ practice command
+
+
+$ git stash
+Saved working directory and index state WIP on main: d7b0122 edited
+
+$ git stash show
+ output.txt | 148 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 147 insertions(+), 1 deletion(-)
+
+
+$ git stash apply
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   output.txt
+
+$ git stash drop
+Dropped refs/stash@{0} (46cecbe5b88998b633385e78aff4bad0f5f5479c)
+
+$ git stash show
+No stash entries found.
+
+
+
+
+$ git log
+commit 2553f8c68325293bd87a4f32f9581a3efca4bea2 (HEAD -> main)
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 15:41:40 2021 +0530
+
+    update
+
+commit d7b0122a32359fdbf6e58228c0d94edb0b623bc6 (origin/main)
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 14:42:10 2021 +0530
+
+    edited
+
+commit 0a6c7260c405935500805493db04540f88588230
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 14:36:49 2021 +0530
+
+    commands with output
+
+
+
+$ git log -p -2
+commit 2553f8c68325293bd87a4f32f9581a3efca4bea2 (HEAD -> main)
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 15:41:40 2021 +0530
+
+    update
+
+diff --git a/output.txt b/output.txt
+index 280b5e6..96471d9 100644
+--- a/output.txt
++++ b/output.txt
+@@ -26,4 +26,150 @@ Untracked files:
+ $ git commit -m "commands with output"
+ [main (root-commit) 0a6c726] commands with output
+  1 file changed, 2 insertions(+)
+- create mode 100644 demo.txt
+\ No newline at end of file
++ create mode 100644 demo.txt
++
++
++
++$ git commit -a
++On branch main
++Untracked files:
++  (use "git add <file>..." to include in what will be committed)
++        output.txt
++
++nothing added to commit but untracked files present (use "git add" to track).
++
++$ git commit
++[main 7d54eeb] "commit without using -m"
++ 1 file changed, 29 insertions(+)
++ create mode 100644 output.txt
++
++
++
++$ git commit --amend
++[main 3e2236b] "text file of outputs"
++ Date: Wed Dec 22 14:42:10 2021 +0530
++ 1 file changed, 29 insertions(+)
++ create mode 100644 output.txt
++
++
++
++$ git commit --amend -m "edited"
++[main 1dd41b0] edited
++ Date: Wed Dec 22 14:42:10 2021 +0530
++ 1 file changed, 29 insertions(+)
++ create mode 100644 output.txt
+
+$ git shortlog
+mikki282 (3):
+      commands with output
+      edited
+      update
+
+
+$ git shortlog -n
+mikki282 (3):
+      commands with output
+      edited
+      update
+
+$ git shortlog -e
+mikki282 <mikki.aiet@gmail.com> (3):
+      commands with output
+      edited
+      update
+
+
+$ ll
+total 5
+-rw-r--r-- 1 mikki.kumari 1049089   24 Dec 22 16:01 demo.txt
+-rw-r--r-- 1 mikki.kumari 1049089 3636 Dec 22 16:01 output.txt
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ ll
+total 4
+-rw-r--r-- 1 mikki.kumari 1049089 3636 Dec 22 16:01 output.txt
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git checkout demo.txt
+Updated 1 path from the index
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ ll
+total 5
+-rw-r--r-- 1 mikki.kumari 1049089   24 Dec 22 16:02 demo.txt
+-rw-r--r-- 1 mikki.kumari 1049089 3636 Dec 22 16:01 output.txt
+
+
+$ git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   output.txt
+
+
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   abc.txt
+        modified:   output.txt
+
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   output.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        abc.txt
+
+$ git clean -i
+Would remove the following item:
+  abc.txt
+*** Commands ***
+    1: clean                2: filter by pattern    3: select by numbers
+    4: ask each             5: quit                 6: help
+What now> c
+Removing abc.txt
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   output.txt
+
+
+
+$ git branch master
+$ git branch --list
+  list
+* main
+  master
+
+$ git checkout master
+Switched to branch 'master'
+M       output.txt
+
+$ git checkout -b demo
+Switched to a new branch 'demo'
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (list)
+$ git branch --show-current
+list
+
+$ git branch
+  default
+  demo
+  list
+* main
+  master
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git branch -m master default
+fatal: A branch named 'default' already exists.
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git branch -m master look
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git branch
+  default
+  demo
+  list
+  look
+* main
+
+$ git push origin demo
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+remote:
+remote: Create a pull request for 'demo' on GitHub by visiting:
+remote:      https://github.com/mikki282/commandtest/pull/new/demo
+remote:
+To https://github.com/mikki282/commandtest.git
+ * [new branch]      demo -> demo
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (demo)
+$ git push origin --delete demo
+To https://github.com/mikki282/commandtest.git
+ - [deleted]         demo
+$ git branch -d demo
+Deleted branch demo (was 2553f8c).
+
+$ git remote add origni https://github.com/mikki282/commandtest.git
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git remote -v
+origin  https://github.com/mikki282/commandtest.git (fetch)
+origin  https://github.com/mikki282/commandtest.git (push)
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git add .
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git push origin main
+Everything up-to-date
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git commit -m "updated"
+[main c341896] updated
+ 1 file changed, 241 insertions(+)
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
+$ git push origin main
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 2.15 KiB | 2.15 MiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/mikki282/commandtest.git
+   2553f8c..c341896  main -> main
+
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main)
+$ git bisect start
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main|BISECTING)
+$ git bisect bad 2553f8c68325293bd87a4f32f9581a3efca4bea2
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main|BISECTING)
+$ git bisect good 2553f8c68325293bd87a4f32f9581a3efca4bea2
+2553f8c68325293bd87a4f32f9581a3efca4bea2 was both good and bad
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main|BISECTING)
+$ git bisect bad
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[c34189670f9400e3b409ce56fb2eca3a13f4a1ae] updated
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command ((c341896...)|BISECTING)
+$ git bisect good
+5ea3fbbe3cb7bd8ba2ee0991c1c7445dce10acde is the first bad commit
+commit 5ea3fbbe3cb7bd8ba2ee0991c1c7445dce10acde
+Author: mikki282 <mikki.aiet@gmail.com>
+Date:   Wed Dec 22 17:16:53 2021 +0530
+
+    changed
+
+ output.txt | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (master)
+$ git checkout main
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main)
+$ ls
+apply.txt.txt  demo.txt  output.txt
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main)
+$ git cherry-pick e577124f3fd9f5eb809d1f5ce5338f603cf3038b
+[main 94b7f43] added test1 file
+ Date: Tue Dec 28 11:19:46 2021 +0530
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 test1.txt
+
+mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main)
+$ ls
+apply.txt.txt  demo.txt  output.txt  test1.txt
+
+
+
+
+
+
+$ git blame output.txt
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   1) $ git status
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   2) On branch main
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   3)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   4) No commits yet
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   5)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   6) Changes to be committed:
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   7)   (use "git rm --cached <file>..." to unstage)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   8)         new file:   demo.txt
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530   9)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  10)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  11)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  12) $ git status
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  13) On branch main
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  14)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  15) No commits yet
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  16)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  17) Changes to be committed:
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  18)   (use "git rm --cached <file>..." to unstage)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  19)         new file:   demo.txt
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  20)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  21) Untracked files:
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  22)   (use "git add <file>..." to include in what will be committed)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  23)         output.txt
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  24)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  25)
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  26) $ git commit -m "commands with output"
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  27) [main (root-commit) 0a6c726] commands with output
+d7b0122a (mikki282          2021-12-22 14:42:10 +0530  28)  1 file changed, 2 insertions(+)
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  29)  create mode 100644 demo.txt
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  30)
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  31)
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  32)
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  33) $ git commit -a
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  34) On branch main
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  35) Untracked files:
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  36)   (use "git add <file>..." to include in what will be committed)
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  37)         output.txt
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  38)
+2553f8c6 (mikki282          2021-12-22 15:41:40 +0530  39) nothing added to commit but untracked files present (use "git add" to track).
+
+
+
+
+$ git diff c34189670f9400e3b409ce56fb2eca3a13f4a1ae
+diff --git a/apply.txt.txt b/apply.txt.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/output.txt b/output.txt
+index 489a12b..26ec888 100644
+--- a/output.txt
++++ b/output.txt
+@@ -414,3 +414,127 @@ $ git remote -v
+ origin  https://github.com/mikki282/commandtest.git (fetch)
+ origin  https://github.com/mikki282/commandtest.git (push)
+
++mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
++$ git add .
++
++mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
++$ git push origin main
++Everything up-to-date
++
++mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
++$ git commit -m "updated"
++[main c341896] updated
++ 1 file changed, 241 insertions(+)
++
++mikki.kumari@ITT-MIKKI MINGW64 ~/OneDrive - InTimeTec Visionsoft Pvt. Ltd.,/Desktop/Git/commands (main)
++$ git push origin main
++Enumerating objects: 5, done.
++Counting objects: 100% (5/5), done.
++Delta compression using up to 8 threads
++Compressing objects: 100% (3/3), done.
++Writing objects: 100% (3/3), 2.15 KiB | 2.15 MiB/s, done.
++Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
++To https://github.com/mikki282/commandtest.git
++   2553f8c..c341896  main -> main
++
++
++mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main)
++$ git bisect start
++
++mikki.kumari@ITT-MIKKI MINGW64 ~/Training/Git_cmnds/git_command (main|BISECTING)
++$ git bisect bad 2553f8c68325293bd87a4f32f9581a3efca4bea2
++
+
